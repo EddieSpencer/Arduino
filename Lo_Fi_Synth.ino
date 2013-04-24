@@ -8,8 +8,6 @@
 // Analog in 3: Grain 2 pitch
 // Analog in 4: Grain repetition frequency
 //
-// Digital 3: Audio out (Digital 11 on ATmega8)
-
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -36,31 +34,14 @@ uint8_t grain2Decay;
 
 // Changing these will also requires rewriting audioOn()
 
-#if defined(__AVR_ATmega8__)
-//
-// On old ATmega8 boards.
-//    Output is on pin 11
-//
-#define LED_PIN       13
-#define LED_PORT      PORTB
-#define LED_BIT       5
-#define PWM_PIN       11
-#define PWM_VALUE     OCR2
-#define PWM_INTERRUPT TIMER2_OVF_vect
-#elif defined(__AVR_ATmega1280__)
-//
-// On the Arduino Mega
-//    Output is on pin 3
-//
+
 #define LED_PIN       13
 #define LED_PORT      PORTB
 #define LED_BIT       7
 #define PWM_PIN       3
 #define PWM_VALUE     OCR3C
 #define PWM_INTERRUPT TIMER3_OVF_vect
-#else
-//
-// For modern ATmega168 and ATmega328 boards
+
 //    Output is on pin 3
 //
 #define PWM_PIN       3
@@ -141,10 +122,6 @@ void setup() {
 }
 
 void loop() {
-  // The loop is pretty simple - it just updates the parameters for the oscillators.
-  //
-  // Avoid using any functions that make extensive use of interrupts, or turn interrupts off.
-  // They will cause clicks and poops in the audio.
   
   // Smooth frequency mapping
   //syncPhaseInc = mapPhaseInc(analogRead(SYNC_CONTROL)) / 4;
