@@ -185,7 +185,6 @@ SIGNAL(PWM_INTERRUPT)
   output >>= 9;
   if (output > 255) output = 255;
 
-  // Output to PWM (this is faster than using analogWrite)  
   PWM_VALUE = output;
 }
 
